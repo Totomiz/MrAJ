@@ -8,7 +8,7 @@ package com.zt.java.datastructure.basic;
 
 public class SortNumber {
     public static void main(String[] args) {
-        Integer[] originNums = new Integer[]{33, 1111, 44, 13, 11, 558, 2001, 200, 9, 100, 42, 78};
+        Integer[] originNums = new Integer[]{33, 1111, 44, 43324, 13, 11, 558, 2001, 200, 9, 100, 42, 78};
         SortNumber handle = new SortNumber();
         System.out.println("original Nums:");
         printf(originNums);
@@ -20,6 +20,8 @@ public class SortNumber {
         printf(handle.quickSortByDesc(originNums));
         printf(handle.insertSortByAsc(originNums));
         printf(handle.insertSortByDesc(originNums));
+        printf(handle.shellSortAsc(originNums));
+        printf(handle.shellSortByDesc(originNums));
     }
 
     /**
@@ -291,6 +293,66 @@ public class SortNumber {
                 clone[j] = clone[j - 1];//整体后移一位
             }
             clone[j] = temp;
+        }
+        return clone;
+    }
+
+    /**
+     * 希尔排序升序
+     * 基本思想：
+     * 将数组拆分成d长度的小数组，最开始d长度为length/2
+     * 对小数组插入排序
+     * 再将d长度缩小为d/2
+     * 重复操作，直到d=1
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] shellSortAsc(Integer[] nums) {
+        System.out.println("shell sort by Asc:");
+        Integer[] clone = nums.clone();
+        for (int d = clone.length / 2; d >= 1; d /= 2) {//d每次缩小二分之一
+            for (int groupStarPosition = 0; groupStarPosition <= clone.length - d; groupStarPosition++) {//分成d长度的段
+                //对d长度的每组数进行插入排序,每组起始坐标为groupStarPosition
+                for (int j = groupStarPosition; j < groupStarPosition + d; j++) {
+                    int temp = clone[j];
+                    int k = 0;
+                    for (k = j; k > groupStarPosition && temp < clone[k - 1]; k--) {
+                        clone[k] = clone[k - 1];
+                    }
+                    clone[k] = temp;
+                }
+            }
+        }
+        return clone;
+    }
+
+    /**
+     * 希尔排序升序
+     * 基本思想：
+     * 将数组拆分成d长度的小数组，最开始d长度为length/2
+     * 对小数组插入排序
+     * 再将d长度缩小为d/2
+     * 重复操作，直到d=1
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] shellSortByDesc(Integer[] nums) {
+        System.out.println("shell sort by Desc:");
+        Integer[] clone = nums.clone();
+        for (int d = clone.length / 2; d >= 1; d /= 2) {//d每次缩小二分之一
+            for (int groupStarPosition = 0; groupStarPosition <= clone.length - d; groupStarPosition++) {//分成d长度的段
+                //对d长度的每组数进行插入排序,每组起始坐标为groupStarPosition
+                for (int j = groupStarPosition; j < groupStarPosition + d; j++) {
+                    int temp = clone[j];
+                    int k = 0;
+                    for (k = j; k > groupStarPosition && temp > clone[k - 1]; k--) {
+                        clone[k] = clone[k - 1];
+                    }
+                    clone[k] = temp;
+                }
+            }
         }
         return clone;
     }
