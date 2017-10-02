@@ -22,6 +22,8 @@ public class SortNumber {
         printf(handle.insertSortByDesc(originNums));
         printf(handle.shellSortAsc(originNums));
         printf(handle.shellSortByDesc(originNums));
+        printf(handle.selectSortByAsc(originNums));
+        printf(handle.selectSortByDesc(originNums));
     }
 
     /**
@@ -353,6 +355,66 @@ public class SortNumber {
                     clone[k] = temp;
                 }
             }
+        }
+        return clone;
+    }
+
+    /**
+     * 选择排序（升序）
+     * 每次选择一个最小值排在有序数组的后面一位上
+     * 主要关心每次选择的最小值的位置与值，再将此位置与数值交换
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] selectSortByAsc(Integer[] nums) {
+        System.out.println("select sort by Asc:");
+        Integer[] clone = nums.clone();
+        int position = 0;//记录本次选择数的数组位置
+        int value = 0;//记录本次选择的值
+        for (int i = 0; i < clone.length; i++) {
+            value = clone[i];//初始值为clone[i]
+            for (int j = i; j < clone.length; j++) {
+                //如果发现有值比当前选择的值小，position记录他在数组中的位置，更新value的值，进行下次比较
+                if (clone[j] <= value) {
+                    position = j;
+                    value = clone[j];
+                }
+            }
+            //将此次选择的最小值与clone[i]位置交换
+            int temp = clone[i];
+            clone[i] = value;
+            clone[position] = temp;
+        }
+        return clone;
+    }
+
+    /**
+     * 选择排序(降序)
+     * 每次选择一个最大值排在有序数组的后面一位上
+     * 主要关心每次选择的最大值的位置与值，再将此位置与起始选择位置交换
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] selectSortByDesc(Integer[] nums) {
+        System.out.println("select sort by Desc:");
+        Integer[] clone = nums.clone();
+        int position = 0;//记录本次选择数的数组位置
+        int value = 0;//记录本次选择的值
+        for (int i = 0; i < clone.length; i++) {
+            value = clone[i];//初始值为clone[i]
+            for (int j = i; j < clone.length; j++) {
+                //如果发现有值比当前选择的值大，position记录他在数组中的位置，更新value的值，进行下次比较
+                if (clone[j] >= value) {
+                    position = j;
+                    value = clone[j];
+                }
+            }
+            //将此次选择的最小值与clone[i]位置交换
+            int temp = clone[i];
+            clone[i] = value;
+            clone[position] = temp;
         }
         return clone;
     }
