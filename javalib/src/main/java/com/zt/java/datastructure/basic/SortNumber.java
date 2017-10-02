@@ -16,6 +16,8 @@ public class SortNumber {
         printf(handle.bubbleSortByAsc2(originNums));
         printf(handle.bubbleSortByDesc(originNums));
         printf(handle.bubbleSortByDesc2(originNums));
+        printf(handle.quickSortByAsc(originNums));
+        printf(handle.quickSortByDesc(originNums));
     }
 
     /**
@@ -142,5 +144,97 @@ public class SortNumber {
         }
         return clone;
     }
+
+    /**
+     * 快速排序升序
+     *
+     * @param nums src
+     * @return result
+     */
+    public Integer[] quickSortByAsc(Integer[] nums) {
+        Integer[] clone = nums.clone();
+        System.out.println("quick sort by Asc");
+        quickSortByAsc(clone, 0, clone.length - 1);
+        return clone;
+    }
+
+    public void quickSortByAsc(Integer[] nums, int low, int high) {
+        if (low < high) {
+            int middle = getMiddleAsc(nums, low, high);
+            quickSortByAsc(nums, low, middle - 1);
+            quickSortByAsc(nums, middle + 1, high);
+        }
+    }
+
+    /**
+     * 获取中轴位置(Asc升序)
+     *
+     * @param nums src
+     * @param low  low
+     * @param high high
+     * @return position
+     */
+    private int getMiddleAsc(Integer[] nums, int low, int high) {
+        int middleNum = nums[low];//取第一次传入的low位位中轴数
+        while (low < high) {
+            while (low < high && nums[high] >= middleNum) {//右边high游标不断前移，如果当前位置的数大于中轴上的数
+                high--;
+            }
+            nums[low] = nums[high];//小的移到左边
+            while (low < high && nums[low] <= middleNum) {//左边low游标不断后移，如果当前low位置的数小于中轴上的数
+                low++;
+            }
+            nums[high] = nums[low];//大的移到右边
+        }
+        nums[low] = middleNum;//将中轴数放到正确的位置上
+        return low;
+    }
+
+    /**
+     * 快速排序升序
+     *
+     * @param nums src
+     * @return result
+     */
+    public Integer[] quickSortByDesc(Integer[] nums) {
+        Integer[] clone = nums.clone();
+        System.out.println("quick sort by desc:");
+        quickSortByDesc(clone, 0, clone.length - 1);
+        return clone;
+    }
+
+    private void quickSortByDesc(Integer[] nums, int low, int high) {
+        if (low < high) {
+            int middle = getMiddleDesc(nums, low, high);
+            quickSortByDesc(nums, low, middle - 1);//对中轴左边继续排序
+            quickSortByDesc(nums, middle + 1, high);//对中轴右边继续排序
+        }
+    }
+
+    /**
+     * 获取中轴位置(Desc降序)
+     *
+     * @param nums src
+     * @param low  low
+     * @param high high
+     * @return position
+     */
+    private int getMiddleDesc(Integer[] nums, int low, int high) {
+        int middleNum = nums[low];//取第一次传入的low位位中轴数
+        while (low < high) {
+            while (low < high && nums[high] <= middleNum) {//右边high游标不断前移，如果当前位置的数小于中轴上的数
+                high--;
+            }
+            nums[low] = nums[high];//大的数移到左边
+            while (low < high && nums[low] >= middleNum) {//左边low游标不断后移，如果当前low位置的数大于中轴上的数
+                low++;
+            }
+            nums[high] = nums[low];//小的数移到右边
+        }
+        nums[low] = middleNum;//将中轴数放到正确的位置上
+        return low;
+
+    }
+
 
 }
