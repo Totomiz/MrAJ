@@ -18,6 +18,8 @@ public class SortNumber {
         printf(handle.bubbleSortByDesc2(originNums));
         printf(handle.quickSortByAsc(originNums));
         printf(handle.quickSortByDesc(originNums));
+        printf(handle.insertSortByAsc(originNums));
+        printf(handle.insertSortByDesc(originNums));
     }
 
     /**
@@ -236,5 +238,60 @@ public class SortNumber {
 
     }
 
+    /**
+     * 基本思想：每步将一个待排序的记录，按其顺序码大小插入到
+     * 前面已经排序的字序列的合适位置（从后向前找到合适位置后），
+     * 直到全部插入排序完为止。
+     * <p>
+     * 从第一个元素开始，该元素可以认为已经被排序
+     * 取出下一个元素，在已经排序的元素序列中从后向前扫描
+     * 如果该元素（已排序）大于新元素，将该元素移到下一位置
+     * 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置
+     * 将新元素插入到该位置中
+     * 重复步骤2
+     *
+     * @param nums
+     */
+    public Integer[] insertSortByAsc(Integer[] nums) {
+        System.out.println("insert sort by Asc:");
+        Integer[] clone = nums.clone();
+        for (int i = 0; i < clone.length; i++) {
+            int temp = clone[i];//取出下个待插入排序的数
+            int j = 0;//插入的位置标记
+            for (j = i; j > 0 && temp < clone[j - 1]; j--) {//满足待排序数小于前面的数条件，j--
+                clone[j] = clone[j - 1];//整体后移一位
+            }
+            clone[j] = temp;
+        }
+        return clone;
+    }
 
+
+    /**
+     * 基本思想：每步将一个待排序的记录，按其顺序码大小插入到
+     * 前面已经排序的字序列的合适位置（从后向前找到合适位置后），
+     * 直到全部插入排序完为止。
+     * <p>
+     * 从第一个元素开始，该元素可以认为已经被降序排序
+     * 取出下一个元素，在已经排序的元素序列中从后向前扫描
+     * 如果该元素（已排序）小于新元素，将该元素移到下一位置
+     * 重复步骤3，直到找到已排序的元素大于或者等于新元素的位置
+     * 将新元素插入到该位置中
+     * 重复步骤2
+     *
+     * @param nums
+     */
+    public Integer[] insertSortByDesc(Integer[] nums) {
+        System.out.println("insert sort by Desc:");
+        Integer[] clone = nums.clone();
+        for (int i = 0; i < clone.length; i++) {
+            int temp = clone[i];//取出下个待插入排序的数
+            int j = 0;//插入的位置标记
+            for (j = i; j > 0 && temp > clone[j - 1]; j--) {//满足待排序数大于前面的数条件，j--
+                clone[j] = clone[j - 1];//整体后移一位
+            }
+            clone[j] = temp;
+        }
+        return clone;
+    }
 }
