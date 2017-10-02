@@ -24,6 +24,8 @@ public class SortNumber {
         printf(handle.shellSortByDesc(originNums));
         printf(handle.selectSortByAsc(originNums));
         printf(handle.selectSortByDesc(originNums));
+        printf(handle.mergeSortAsc(originNums));
+        printf(handle.mergeSortDesc(originNums));
     }
 
     /**
@@ -417,5 +419,158 @@ public class SortNumber {
             clone[position] = temp;
         }
         return clone;
+    }
+
+    /**
+     * 归并排序升序
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] mergeSortAsc(Integer[] nums) {
+        System.out.println("merge sort By Asc:");
+        Integer[] clone = nums.clone();
+        mergeSortAsc(clone, 0, clone.length - 1);
+        return clone;
+    }
+
+    /**
+     * low 到high 元素归并
+     *
+     * @param nums src numbers
+     * @param low  归并元素起始位置
+     * @param high 归并元素结束位置
+     */
+    public void mergeSortAsc(Integer[] nums, int low, int high) {
+
+        if (low < high) {
+            int middle = (low + high) / 2;
+            mergeSortAsc(nums, low, middle);//对左边归并排序
+            mergeSortAsc(nums, middle + 1, high);//对右边归并排序
+            mergeAsc(nums, low, middle, high);//归并
+        }
+    }
+
+    /**
+     * 归并操作，将有序的两边的子序列合并成整体有序的数
+     *
+     * @param nums   待排序数组
+     * @param low    待排的开始位置
+     * @param middle 待排中间位置
+     * @param high   待排结束位置
+     */
+    public void mergeAsc(Integer[] nums, int low, int middle, int high) {
+        //辅助数组，用于存储新排序好的数组
+        Integer[] temp = new Integer[high - low + 1];
+        //左指针
+        int left = low;
+        //右指针
+        int right = middle + 1;
+        //辅助数组的标记
+        int k = 0;
+        // 把较小的数先移到新数组中
+        while (left <= middle && right <= high) {
+            if (nums[left] < nums[right]) {
+                temp[k] = nums[left];
+                left++;
+                k++;
+            } else {
+                temp[k] = nums[right];
+                right++;
+                k++;
+            }
+        }
+
+        // 把左边剩余的数移入数组
+        while (left <= middle) {
+            temp[k++] = nums[left++];
+        }
+
+        // 把右边剩余的数移入数组
+        while (right <= high) {
+            temp[k++] = nums[right++];
+        }
+
+        // 把新数组中的数覆盖回到nums数组
+        for (int i = 0; i < temp.length; i++) {
+            nums[low + i] = temp[i];
+        }
+
+    }
+
+    /**
+     * 归并排序（降序）
+     *
+     * @param nums src numbers
+     * @return result numbers
+     */
+    public Integer[] mergeSortDesc(Integer[] nums) {
+        System.out.println("merge sort by Desc:");
+        Integer[] clone = nums.clone();
+        mergeSortDesc(clone, 0, clone.length - 1);
+        return clone;
+    }
+
+    /**
+     * low 到high 元素desc归并
+     *
+     * @param nums src numbers
+     * @param low  归并元素起始位置
+     * @param high 归并元素结束位置
+     */
+    public void mergeSortDesc(Integer[] nums, int low, int high) {
+        if (low < high) {
+            int middle = (low + high) / 2;
+            mergeSortDesc(nums, low, middle);
+            mergeSortDesc(nums, middle + 1, high);
+            mergeDesc(nums, low, middle, high);
+        }
+    }
+
+    /**
+     * 归并操作，将有序的两边的子序列合并成整体有序的数
+     *
+     * @param nums   待排序数组
+     * @param low    待排的开始位置
+     * @param middle 待排中间位置
+     * @param high   待排结束位置
+     */
+    public void mergeDesc(Integer[] nums, int low, int middle, int high) {
+        //辅助数组，用于存储新排序好的数组
+        Integer[] temp = new Integer[high - low + 1];
+        //左指针
+        int left = low;
+        //右指针
+        int right = middle + 1;
+        //辅助数组的标记
+        int k = 0;
+        // 把较大的数先移到新数组中
+        while (left <= middle && right <= high) {
+            if (nums[left] > nums[right]) {
+                temp[k] = nums[left];
+                left++;
+                k++;
+            } else {
+                temp[k] = nums[right];
+                right++;
+                k++;
+            }
+        }
+
+        // 把左边剩余的数移入数组
+        while (left <= middle) {
+            temp[k++] = nums[left++];
+        }
+
+        // 把右边剩余的数移入数组
+        while (right <= high) {
+            temp[k++] = nums[right++];
+        }
+
+        // 把新数组中的数覆盖回到nums数组
+        for (int i = 0; i < temp.length; i++) {
+            nums[low + i] = temp[i];
+        }
+
     }
 }
