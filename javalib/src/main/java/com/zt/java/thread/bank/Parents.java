@@ -1,4 +1,4 @@
-package com.example.one.thread.bank;
+package com.zt.java.thread.bank;
 
 /**
  * Created by tony.zhang
