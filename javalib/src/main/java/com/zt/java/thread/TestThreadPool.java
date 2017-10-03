@@ -4,8 +4,10 @@ import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -22,20 +24,26 @@ public class TestThreadPool {
     //由于要使用线程池，因此该类必须是线程类，实现runnable接口即可
     //在他的构造函数中设置线程类处理的客户端socket对象
     //在run（）中，建立客户端的输入输出流连接，使用while读取客户端的输入行，并回复给客户端，如果客户端输入bye命令，则关闭该客户端的连接
-
+    //
 
     public static void main(String[] args){
         boolean flag=true;
         try {
             //创建容量为10 的线程池
             ExecutorService pool= Executors.newFixedThreadPool(10);
+            InetAddress inetAddress=InetAddress.getLocalHost();
             //启动服务器
-            ServerSocket serverSocket=new ServerSocket(12345);
+            //localhost
+            ServerSocket serverSocket=new ServerSocket(12345,20,inetAddress);
+            //127.0.0.1
+            //ServerSocket serverSocket=new ServerSocket(12345,20,inetAddress);
             System.out.println("start listener");
 
             while (flag){
                 //接受客户端连接
                 Socket accept = serverSocket.accept();
+                InetAddress clientAddrss = accept.getInetAddress();
+                System.out.println("client InetAddress: "+clientAddrss);
                 //为客户端创建独立的连接
                 pool.execute(new ServiceThread(accept));
             }
@@ -64,10 +72,11 @@ public class TestThreadPool {
                 while ((inputLine=is.readLine())!=null){
                     //如果客户端输入“bye”命令，挂壁客户端连接
                     if(inputLine.equals("bye")){
+                        System.out.println("client say goodbye!!! "+"\t"+new Date());
                         break;
                     }else{
-                        System.out.println(inputLine);
-                        os.write(("reply: "+inputLine).getBytes());
+                        System.out.println("client message:"+inputLine+"\t"+new Date());
+                        os.write(("server reply: "+inputLine+"\t"+new Date()+"\r\n").getBytes());
                     }
                 }
                 is.close();
