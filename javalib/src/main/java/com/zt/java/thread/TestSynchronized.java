@@ -6,7 +6,7 @@ package com.zt.java.thread;
  */
 
 public class TestSynchronized extends Thread{
-    public  static int count=0;
+    public  static int count=0;//不同线程对同一对象的操作
 
     public synchronized void funtion(){
         //保护函数
@@ -20,17 +20,13 @@ public class TestSynchronized extends Thread{
 
     @Override
     public void run() {
-        synchronized (this) {
+        synchronized (this) {//加与不加的区别
             for (int i = 0; i < 10; i++) {
                 count++;
                 System.out.println(currentThread().getName() + " for loop " + count);
             }
         }
-//        synchronized (this){
-//            for (int i = 0; i < 10; i++) {
-//                System.out.println(currentThread().getName()+" synchronized loop "+i);
-//            }
-//        }
+
     }
 
     public static void main(String[] args){
