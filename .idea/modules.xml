@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/CodePark/CodePark.iml" filepath="$PROJECT_DIR$/CodePark/CodePark.iml" />
       <module fileurl="file://$PROJECT_DIR$/MrAJ.iml" filepath="$PROJECT_DIR$/MrAJ.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/javalib/javalib.iml" filepath="$PROJECT_DIR$/javalib/javalib.iml" />
